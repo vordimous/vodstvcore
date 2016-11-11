@@ -10,7 +10,7 @@ type VodDao struct{}
 
 //Get ...
 func (d VodDao) Get(id uint) (vod models.Vod, err error) {
-	GetDB().First(&vod, id)
+	err = GetDB().First(&vod, id).Error
 	return vod, err
 }
 
@@ -23,9 +23,9 @@ func (d VodDao) Find(vodSearch forms.VodSearch) (vods []models.Vod, err error) {
 //Save ...
 func (d VodDao) Save(vod *models.Vod) (err error) {
 	if GetDB().NewRecord(vod) {
-		GetDB().Create(&vod)
+		err = GetDB().Create(&vod).Error
 	} else {
-		GetDB().Save(&vod)
+		err = GetDB().Save(&vod).Error
 	}
 
 	return err
