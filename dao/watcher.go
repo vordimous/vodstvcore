@@ -34,13 +34,9 @@ func (d WatcherDao) Signup(form forms.SignupForm) (watcher models.Watcher, err e
 	GetDB().Where(&models.Watcher{Email: form.Email}).First(&watcher)
 
 	if GetDB().NewRecord(watcher) {
-		bytePassword := []byte(form.Password)
-		hashedPassword, err := bcrypt.GenerateFromPassword(bytePassword, bcrypt.DefaultCost)
-		checkErr(err, "Pass hash failed")
-
 		watcher.Email = form.Email
 		watcher.Name = form.Name
-		watcher.Password = string(hashedPassword)
+		watcher.Password = form.Password
 		GetDB().Create(&watcher)
 
 		return watcher, nil
