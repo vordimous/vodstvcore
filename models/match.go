@@ -10,7 +10,8 @@ import (
 type Match struct {
 	EsInt `json:"-"`
 	gorm.Model
-	Vods []Vod
+	Title string
+	Vods  []Vod
 }
 
 //SetField ...

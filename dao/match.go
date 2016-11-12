@@ -12,7 +12,7 @@ type MatchDao struct{}
 
 //Get ...
 func (d MatchDao) Get(id uint) (match models.Match, err error) {
-	err = GetDB().First(&match, id).Error
+	err = GetDB().First(&match, id).Related(&match.Vods).Error
 	return match, err
 }
 
