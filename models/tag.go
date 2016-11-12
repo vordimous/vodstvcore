@@ -10,7 +10,9 @@ import (
 type Tag struct {
 	EsInt `json:"-"`
 	gorm.Model
-	Name string
+	Name  string
+	Type  string
+	Regex string
 }
 
 //SetField ...
