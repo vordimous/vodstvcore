@@ -3,6 +3,8 @@ package dao
 import (
 	"esvodsApi/forms"
 	"esvodsCore/models"
+
+	"github.com/fatih/structs"
 )
 
 //VodDao ...
@@ -10,13 +12,13 @@ type VodDao struct{}
 
 //Get ...
 func (d VodDao) Get(id uint) (vod models.Vod, err error) {
-	err = GetDB().First(&vod, id).Error
+	err = GetDB().First(&vod, id).Related(&vod.Tags, "Tags").Error
 	return vod, err
 }
 
 //Find ...
-func (d VodDao) Find(vodSearch forms.VodSearch) (vods []models.Vod, err error) {
-	// _, err = db.GetDB().Select(&vods, "SELECT a.id, a.title, a.content, a.updated_at, a.created_at, json_build_object('id', u.id, 'name', u.name, 'email', u.email) AS watcher FROM vod a LEFT JOIN public.watcher u ON a.watcher_id = u.id WHERE a.watcher_id=$1 GROUP BY a.id, a.title, a.content, a.updated_at, a.created_at, u.id, u.name, u.email ORDER BY a.id DESC", watcherID)
+func (d VodDao) Find(s forms.VodSearch) (vods []models.Vod, err error) {
+	err = db.Where(getQuery(structs.New(s))).Find(&vods).Error
 	return vods, err
 }
 
@@ -32,14 +34,10 @@ func (d VodDao) Save(vod *models.Vod) (err error) {
 }
 
 //Delete ...
-func (d VodDao) Delete(id uint) (err error) {
-	// _, err = d.One(watcherID, id)
-
-	// if err != nil {
-	// 	return errors.New("models.Vod not found")
-	// }
-
-	// _, err = db.GetDB().Exec("DELETE FROM vod WHERE id=$1", id)
-
+func (d VodDao) Delete(id uint) error {
+	vod, err := d.Get(id)
+	if err == nil {
+		err = db.Delete(&vod).Error
+	}
 	return err
 }

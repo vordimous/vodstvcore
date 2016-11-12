@@ -1,8 +1,6 @@
 package models
 
 import (
-	"errors"
-	"fmt"
 	"reflect"
 
 	"github.com/jinzhu/gorm"
@@ -10,44 +8,31 @@ import (
 
 //Vod ...
 type Vod struct {
-	EsInt `json:"_"`
+	EsInt `json:"-"`
 	gorm.Model
-	Title   string
-	Content string
-}
-
-func setField(structValue *reflect.Value, structFieldValue *reflect.Value, name string, value interface{}) error {
-	if !structFieldValue.IsValid() {
-		return fmt.Errorf("No such field: %s in obj", name)
-	}
-
-	if !structFieldValue.CanSet() {
-		return fmt.Errorf("Cannot set %s field value", name)
-	}
-
-	structFieldType := structFieldValue.Type()
-	val := reflect.ValueOf(value)
-	if structFieldType != val.Type() {
-		return errors.New("Provided value type didn't match obj field type")
-	}
-
-	structFieldValue.Set(val)
-	return nil
+	MatchID   uint
+	Tags      []Tag `gorm:"many2many:vod_tags;"`
+	Title     string
+	Content   string
+	VideoKey  string
+	VideoURL  string
+	VideoSrc  string
+	VideoDate string
+	ThumbURL  string
 }
 
 //SetField ...
-func (vod *Vod) SetField(name string, value interface{}) error {
-	structValue := reflect.ValueOf(vod).Elem()
-	structFieldValue := structValue.FieldByName(name)
+func (v *Vod) SetField(name string, value interface{}) error {
+	sv := reflect.ValueOf(v).Elem()
+	sf := sv.FieldByName(name)
 
-	return setField(&structValue, &structFieldValue, name, value)
+	return setField(&sv, &sf, name, value)
 }
 
 // FillStruct ...
-func (vod *Vod) FillStruct(m map[string]interface{}) error {
-	for k, v := range m {
-		err := vod.SetField(k, v)
-		if err != nil {
+func (v *Vod) FillStruct(m map[string]interface{}) error {
+	for k, val := range m {
+		if err := v.SetField(k, val); err != nil {
 			return err
 		}
 	}

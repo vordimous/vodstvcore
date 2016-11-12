@@ -2,6 +2,8 @@ package dao
 
 import (
 	"database/sql"
+	"esvodsCore/models"
+	"esvodsCore/util"
 	"fmt"
 
 	"github.com/jinzhu/gorm"
@@ -35,13 +37,21 @@ func Init() {
 	var err error
 	//set the global variable
 	db, err = gorm.Open("postgres", dbinfo)
-	checkErr(err, "db connect failed")
+	util.CheckErr(err, "db connect failed")
 	db.DB().SetMaxIdleConns(10)
 	db.DB().SetMaxOpenConns(100)
 	err = db.DB().Ping()
-	checkErr(err, "db ping failed")
+	util.CheckErr(err, "db ping failed")
 
 	db.LogMode(true)
+}
+
+// DbMigration ...
+func DbMigration() {
+	GetDB().AutoMigrate(&models.Vod{})
+	GetDB().AutoMigrate(&models.Match{})
+	GetDB().AutoMigrate(&models.Tag{})
+	GetDB().AutoMigrate(&models.Watcher{})
 }
 
 //GetDB ...

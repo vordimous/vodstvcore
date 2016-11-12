@@ -20,10 +20,11 @@ func (d WatcherDao) Signin(form forms.SigninForm) (watcher models.Watcher, err e
 
 		bytePassword := []byte(form.Password)
 		byteHashedPassword := []byte(watcher.Password)
-		err = bcrypt.CompareHashAndPassword(byteHashedPassword, bytePassword)
-		checkErr(err, "Invalid password")
+		if fail := bcrypt.CompareHashAndPassword(byteHashedPassword, bytePassword); fail != nil {
+			err = errors.New("Invalid password")
+		}
 
-		return watcher, nil
+		return watcher, err
 	}
 
 	return watcher, errors.New("Create an account")
