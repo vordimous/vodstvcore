@@ -27,17 +27,17 @@ func (d TagDao) Save(tag *models.Tag) (err error) {
 	if GetDB().NewRecord(tag) {
 		err = GetDB().Create(&tag).Error
 	} else {
-		err = GetDB().Save(&tag).Error
+		err = GetDB().Model(&tag).Updates(getUpdates(tag)).Error
 	}
 
 	return err
 }
 
 //Delete ...
-func (d TagDao) Delete(id uint) error {
-	tag, err := d.Get(id)
+func (d TagDao) Delete(id uint) (tag models.Tag, err error) {
+	tag, err = d.Get(id)
 	if err == nil {
 		err = db.Delete(&tag).Error
 	}
-	return err
+	return tag, err
 }

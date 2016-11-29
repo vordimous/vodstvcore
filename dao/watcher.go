@@ -48,6 +48,6 @@ func (d WatcherDao) Signup(form forms.SignupForm) (watcher models.Watcher, err e
 
 //Get ...
 func (d WatcherDao) Get(watcherID uint) (watcher models.Watcher, err error) {
-	err = GetDB().First(&watcher, watcherID).Error
+	err = GetDB().First(&watcher, watcherID).Related(&watcher.Feeds).Error
 	return watcher, err
 }

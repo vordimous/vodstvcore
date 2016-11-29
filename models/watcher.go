@@ -14,6 +14,7 @@ type Watcher struct {
 	Email    string `json:"email"`
 	Password string `json:"-"`
 	Name     string `json:"name"`
+	Feeds    []Feed `gorm:"ForeignKey:OwnerID"`
 }
 
 //BeforeCreate ...

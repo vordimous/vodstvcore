@@ -52,6 +52,7 @@ func DbMigration() {
 	GetDB().AutoMigrate(&models.Match{})
 	GetDB().AutoMigrate(&models.Tag{})
 	GetDB().AutoMigrate(&models.Watcher{})
+	GetDB().AutoMigrate(&models.Feed{})
 }
 
 //GetDB ...

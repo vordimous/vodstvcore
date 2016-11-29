@@ -2,17 +2,19 @@ package models
 
 import (
 	"reflect"
-
-	"github.com/jinzhu/gorm"
+	"time"
 )
 
 //Tag ...
 type Tag struct {
-	EsInt `json:"-"`
-	gorm.Model
-	Name  string
-	Type  string
-	Regex string
+	EsInt     `json:"-"`
+	ID        uint       `json:"id" gorm:"primary_key"`
+	CreatedAt time.Time  `json:"createdAt"`
+	UpdatedAt time.Time  `json:"updatedAt"`
+	DeletedAt *time.Time `json:"deletedAt" sql:"index"`
+	Name      string     `json:"name"`
+	Type      string     `json:"type"`
+	Regex     string     `json:"regex"`
 }
 
 //SetField ...
