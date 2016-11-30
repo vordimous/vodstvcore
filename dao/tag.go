@@ -1,11 +1,6 @@
 package dao
 
-import (
-	"esvodsApi/forms"
-	"esvodsCore/models"
-
-	"github.com/fatih/structs"
-)
+import "esvodsCore/models"
 
 //TagDao ...
 type TagDao struct{}
@@ -17,8 +12,8 @@ func (d TagDao) Get(id uint) (tag models.Tag, err error) {
 }
 
 //Find ...
-func (d TagDao) Find(s forms.TagSearch) (tags []models.Tag, err error) {
-	err = db.Where(getQuery(structs.New(s))).Find(&tags).Error
+func (d TagDao) Find(query map[string]interface{}) (tags []models.Tag, err error) {
+	err = db.Where(query).Find(&tags).Error
 	return tags, err
 }
 
