@@ -1,11 +1,6 @@
 package dao
 
-import (
-	"esvodsApi/forms"
-	"esvodsCore/models"
-
-	"github.com/fatih/structs"
-)
+import "esvodsCore/models"
 
 //VodDao ...
 type VodDao struct{}
@@ -17,8 +12,8 @@ func (d VodDao) Get(id uint) (vod models.Vod, err error) {
 }
 
 //Find ...
-func (d VodDao) Find(s forms.VodSearch) (vods []models.Vod, err error) {
-	err = db.Where(getQuery(structs.New(s))).Find(&vods).Error
+func (d VodDao) Find(q map[string]interface{}) (vods []models.Vod, err error) {
+	err = db.Where(q).Find(&vods).Error
 	return vods, err
 }
 
@@ -27,17 +22,17 @@ func (d VodDao) Save(vod *models.Vod) (err error) {
 	if GetDB().NewRecord(vod) {
 		err = GetDB().Create(&vod).Error
 	} else {
-		err = GetDB().Save(&vod).Error
+		err = GetDB().Save(&vod).Updates(getUpdates(vod)).Error
 	}
 
 	return err
 }
 
 //Delete ...
-func (d VodDao) Delete(id uint) error {
-	vod, err := d.Get(id)
+func (d VodDao) Delete(id uint) (vod models.Vod, err error) {
+	vod, err = d.Get(id)
 	if err == nil {
 		err = db.Delete(&vod).Error
 	}
-	return err
+	return vod, err
 }

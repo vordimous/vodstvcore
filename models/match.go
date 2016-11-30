@@ -1,35 +1,15 @@
 package models
 
-import (
-	"reflect"
-
-	"github.com/jinzhu/gorm"
-)
+import "time"
 
 //Match ...
 type Match struct {
-	EsInt `json:"-"`
-	gorm.Model
-	Title string
-	Vods  []Vod
-}
-
-//SetField ...
-func (match *Match) SetField(name string, value interface{}) error {
-	structValue := reflect.ValueOf(match).Elem()
-	structFieldValue := structValue.FieldByName(name)
-
-	return setField(&structValue, &structFieldValue, name, value)
-}
-
-// FillStruct ...
-func (match *Match) FillStruct(m map[string]interface{}) error {
-	for k, v := range m {
-		if err := match.SetField(k, v); err != nil {
-			return err
-		}
-	}
-	return nil
+	ID        uint       `json:"id" gorm:"primary_key"`
+	CreatedAt time.Time  `json:"createdAt"`
+	UpdatedAt time.Time  `json:"updatedAt"`
+	DeletedAt *time.Time `json:"deletedAt" sql:"index"`
+	Title     string     `json:"title"`
+	Vods      []Vod      `json:"vods"`
 }
 
 //BeforeSave ...

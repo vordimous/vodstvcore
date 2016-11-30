@@ -1,11 +1,6 @@
 package dao
 
-import (
-	"esvodsApi/forms"
-	"esvodsCore/models"
-
-	"github.com/fatih/structs"
-)
+import "esvodsCore/models"
 
 //MatchDao ...
 type MatchDao struct{}
@@ -17,8 +12,8 @@ func (d MatchDao) Get(id uint) (match models.Match, err error) {
 }
 
 //Find ...
-func (d MatchDao) Find(s forms.MatchSearch) (matchs []models.Match, err error) {
-	err = db.Where(getQuery(structs.New(s))).Find(&matchs).Error
+func (d MatchDao) Find(q map[string]interface{}) (matchs []models.Match, err error) {
+	err = db.Where(q).Find(&matchs).Error
 	return matchs, err
 }
 

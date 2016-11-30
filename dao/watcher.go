@@ -5,15 +5,27 @@ import (
 
 	"golang.org/x/crypto/bcrypt"
 
-	"esvodsApi/forms"
 	"esvodsCore/models"
 )
+
+//SigninForm ...
+type SigninForm struct {
+	Email    string `form:"email" json:"email" binding:"required,email"`
+	Password string `form:"password" json:"password" binding:"required"`
+}
+
+//SignupForm ...
+type SignupForm struct {
+	Name     string `form:"name" json:"name" binding:"required,max=100"`
+	Email    string `form:"email" json:"email" binding:"required,email"`
+	Password string `form:"password" json:"password" binding:"required"`
+}
 
 //WatcherDao ...
 type WatcherDao struct{}
 
 //Signin ...
-func (d WatcherDao) Signin(form forms.SigninForm) (watcher models.Watcher, err error) {
+func (d WatcherDao) Signin(form SigninForm) (watcher models.Watcher, err error) {
 	err = GetDB().Where(&models.Watcher{Email: form.Email}).First(&watcher).Error
 
 	if watcher.ID != 0 && err == nil {
@@ -31,7 +43,7 @@ func (d WatcherDao) Signin(form forms.SigninForm) (watcher models.Watcher, err e
 }
 
 //Signup ...
-func (d WatcherDao) Signup(form forms.SignupForm) (watcher models.Watcher, err error) {
+func (d WatcherDao) Signup(form SignupForm) (watcher models.Watcher, err error) {
 	err = GetDB().Where(&models.Watcher{Email: form.Email}).First(&watcher).Error
 
 	if GetDB().NewRecord(watcher) && err == nil {

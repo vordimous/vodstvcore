@@ -1,11 +1,6 @@
 package dao
 
-import (
-	"esvodsApi/forms"
-	"esvodsCore/models"
-
-	"github.com/fatih/structs"
-)
+import "esvodsCore/models"
 
 //FeedDao ...
 type FeedDao struct{}
@@ -17,8 +12,8 @@ func (d FeedDao) Get(id uint) (feed models.Feed, err error) {
 }
 
 //Find ...
-func (d FeedDao) Find(s forms.FeedSearch) (feeds []models.Feed, err error) {
-	err = db.Where(getQuery(structs.New(s))).Find(&feeds).Error
+func (d FeedDao) Find(q map[string]interface{}) (feeds []models.Feed, err error) {
+	err = db.Where(q).Find(&feeds).Error
 	return feeds, err
 }
 

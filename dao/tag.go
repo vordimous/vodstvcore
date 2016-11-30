@@ -12,8 +12,8 @@ func (d TagDao) Get(id uint) (tag models.Tag, err error) {
 }
 
 //Find ...
-func (d TagDao) Find(query map[string]interface{}) (tags []models.Tag, err error) {
-	err = db.Where(query).Find(&tags).Error
+func (d TagDao) Find(q map[string]interface{}) (tags []models.Tag, err error) {
+	err = db.Where(q).Find(&tags).Error
 	return tags, err
 }
 

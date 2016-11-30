@@ -1,6 +1,7 @@
 package sess
 
 import (
+	"esvodsCore/models"
 	"esvodsCore/util"
 
 	"github.com/gin-gonic/contrib/sessions"
@@ -9,9 +10,10 @@ import (
 
 //WatcherSessionInfo ...
 type WatcherSessionInfo struct {
-	ID    uint   `json:"id"`
-	Name  string `json:"name"`
-	Email string `json:"email"`
+	ID    uint          `json:"id"`
+	Name  string        `json:"name"`
+	Email string        `json:"email"`
+	Feeds []models.Feed `json:"feeds"`
 }
 
 //GetWatcherID ...

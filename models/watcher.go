@@ -2,19 +2,21 @@ package models
 
 import (
 	"esvodsCore/util"
+	"time"
 
-	"github.com/jinzhu/gorm"
 	"golang.org/x/crypto/bcrypt"
 )
 
 //Watcher ...
 type Watcher struct {
-	EsInt
-	gorm.Model
-	Email    string `json:"email"`
-	Password string `json:"-"`
-	Name     string `json:"name"`
-	Feeds    []Feed `gorm:"ForeignKey:OwnerID"`
+	ID        uint       `json:"id" gorm:"primary_key"`
+	CreatedAt time.Time  `json:"createdAt"`
+	UpdatedAt time.Time  `json:"updatedAt"`
+	DeletedAt *time.Time `json:"deletedAt" sql:"index"`
+	Email     string     `json:"email"`
+	Password  string     `json:"-"`
+	Name      string     `json:"name"`
+	Feeds     []Feed     `gorm:"ForeignKey:OwnerID"`
 }
 
 //BeforeCreate ...
