@@ -3,6 +3,7 @@ package dao
 import (
 	"database/sql"
 	"fmt"
+	"os"
 
 	"github.com/vodstv/core"
 	"github.com/vodstv/core/models"
@@ -32,8 +33,12 @@ var db *gorm.DB
 //Init ...
 func Init() {
 
-	dbinfo := fmt.Sprintf("user=%s password=%s host=%s dbname=%s sslmode=disable",
-		DbUser, DbPassword, DbHost, DbName)
+	dbinfo := os.Getenv("DATABASE_URL")
+
+	if dbinfo == "" {
+		dbinfo = fmt.Sprintf("user=%s password=%s host=%s dbname=%s sslmode=disable",
+			DbUser, DbPassword, DbHost, DbName)
+	}
 
 	var err error
 	//set the global variable
