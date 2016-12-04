@@ -1,6 +1,6 @@
 package dao
 
-import "esvodsCore/models"
+import "github.com/vodstv/core/models"
 
 //MatchDao ...
 type MatchDao struct{}

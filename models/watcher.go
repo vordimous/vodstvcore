@@ -1,8 +1,9 @@
 package models
 
 import (
-	"esvodsCore/util"
 	"time"
+
+	"github.com/vodstv/core"
 
 	"golang.org/x/crypto/bcrypt"
 )
@@ -23,7 +24,7 @@ type Watcher struct {
 func (w *Watcher) BeforeCreate() (err error) {
 	bytePassword := []byte(w.Password)
 	hashedPassword, err := bcrypt.GenerateFromPassword(bytePassword, bcrypt.DefaultCost)
-	util.CheckErr(err, "Pass hash failed")
+	core.CheckErr(err, "Pass hash failed")
 
 	w.Password = string(hashedPassword)
 	return

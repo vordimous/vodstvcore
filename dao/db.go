@@ -2,9 +2,10 @@ package dao
 
 import (
 	"database/sql"
-	"esvodsCore/models"
-	"esvodsCore/util"
 	"fmt"
+
+	"github.com/vodstv/core"
+	"github.com/vodstv/core/models"
 
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/postgres" //import postgres
@@ -37,11 +38,11 @@ func Init() {
 	var err error
 	//set the global variable
 	db, err = gorm.Open("postgres", dbinfo)
-	util.CheckErr(err, "db connect failed")
+	core.CheckErr(err, "db connect failed")
 	db.DB().SetMaxIdleConns(10)
 	db.DB().SetMaxOpenConns(100)
 	err = db.DB().Ping()
-	util.CheckErr(err, "db ping failed")
+	core.CheckErr(err, "db ping failed")
 
 	db.LogMode(true)
 }

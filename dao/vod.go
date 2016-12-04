@@ -1,6 +1,6 @@
 package dao
 
-import "esvodsCore/models"
+import "github.com/vodstv/core/models"
 
 //VodDao ...
 type VodDao struct{}

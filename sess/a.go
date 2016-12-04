@@ -1,8 +1,8 @@
 package sess
 
 import (
-	"esvodsCore/models"
-	"esvodsCore/util"
+	"github.com/vodstv/core"
+	"github.com/vodstv/core/models"
 
 	"github.com/gin-gonic/contrib/sessions"
 	"github.com/gin-gonic/gin"
@@ -21,7 +21,7 @@ func GetWatcherID(c *gin.Context) uint {
 	session := sessions.Default(c)
 	watcherID := session.Get("watcher_id")
 	if watcherID != nil {
-		return util.ConvertToUInt(watcherID)
+		return core.ConvertToUInt(watcherID)
 	}
 	return 0
 }
@@ -31,7 +31,7 @@ func GetSessionWatcherInfo(c *gin.Context) (watcherSessionInfo WatcherSessionInf
 	session := sessions.Default(c)
 	watcherID := session.Get("watcher_id")
 	if watcherID != nil {
-		watcherSessionInfo.ID = util.ConvertToUInt(watcherID)
+		watcherSessionInfo.ID = core.ConvertToUInt(watcherID)
 		watcherSessionInfo.Name = session.Get("watcher_name").(string)
 		watcherSessionInfo.Email = session.Get("watcher_email").(string)
 	}
