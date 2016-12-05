@@ -35,6 +35,8 @@ func Init() {
 
 	dbinfo := os.Getenv("DATABASE_URL")
 
+	fmt.Println("DATABASE_URL: " + dbinfo)
+
 	if dbinfo == "" {
 		dbinfo = fmt.Sprintf("user=%s password=%s host=%s dbname=%s sslmode=disable",
 			DbUser, DbPassword, DbHost, DbName)

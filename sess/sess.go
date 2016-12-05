@@ -1,6 +1,7 @@
 package sess
 
 import (
+	"fmt"
 	"net/url"
 	"os"
 
@@ -26,6 +27,8 @@ func Init() sessions.RedisStore {
 
 	redisInfo := os.Getenv("REDIS_URL")
 
+	fmt.Println("REDIS_URL: " + redisInfo)
+
 	if redisInfo == "" {
 		s, err := sessions.NewRedisStore(10, "tcp", sessHost+":6379", "", []byte("secret"))
 		core.CheckErr(err, "Cannot connect to RedisStore")
@@ -35,9 +38,7 @@ func Init() sessions.RedisStore {
 	//connect to reddis REDIS_URL
 	u, err := url.Parse(redisInfo)
 	core.CheckErr(err, "Cannot parse redis url")
-
 	p, _ := u.User.Password()
-
 	s, err := sessions.NewRedisStore(10, "tcp", u.Host, p, []byte("secret"))
 	core.CheckErr(err, "Cannot connect to RedisStore")
 
