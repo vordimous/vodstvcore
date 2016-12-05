@@ -1,6 +1,9 @@
 package sess
 
 import (
+	"net/url"
+	"os"
+
 	"github.com/vodstv/core"
 
 	"github.com/gin-gonic/contrib/sessions"
@@ -21,11 +24,23 @@ const (
 //Init ...
 func Init() sessions.RedisStore {
 
-	//connect to reddis
-	s, err := sessions.NewRedisStore(10, "tcp", sessHost+":6379", "", []byte("secret"))
+	redisInfo := os.Getenv("REDIS_URL")
+
+	if redisInfo == "" {
+		s, err := sessions.NewRedisStore(10, "tcp", sessHost+":6379", "", []byte("secret"))
+		core.CheckErr(err, "Cannot connect to RedisStore")
+		return s
+	}
+
+	//connect to reddis REDIS_URL
+	u, err := url.Parse(redisInfo)
+	core.CheckErr(err, "Cannot parse redis url")
+
+	p, _ := u.User.Password()
+
+	s, err := sessions.NewRedisStore(10, "tcp", u.Host, p, []byte("secret"))
 	core.CheckErr(err, "Cannot connect to RedisStore")
 
-	//save connection
 	return s
 
 }
