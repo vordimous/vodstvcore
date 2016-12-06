@@ -22,7 +22,7 @@ func (d MatchDao) Save(match *models.Match) (err error) {
 	if GetDB().NewRecord(match) {
 		err = GetDB().Create(&match).Error
 	} else {
-		err = GetDB().Save(&match).Error
+		err = GetDB().Save(&match).Updates(getUpdates(match)).Error
 	}
 
 	return err

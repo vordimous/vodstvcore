@@ -22,7 +22,7 @@ func (d FeedDao) Save(feed *models.Feed) (err error) {
 	if GetDB().NewRecord(feed) {
 		err = GetDB().Create(&feed).Error
 	} else {
-		err = GetDB().Save(&feed).Error
+		err = GetDB().Save(&feed).Updates(getUpdates(feed)).Error
 	}
 
 	return err
