@@ -13,7 +13,7 @@ func (d MatchDao) Get(id uint) (match models.Match, err error) {
 
 //Find ...
 func (d MatchDao) Find(q map[string]interface{}) (matchs []models.Match, err error) {
-	err = db.Where(q).Find(&matchs).Error
+	err = GetDB().Where(q).Find(&matchs).Error
 	return matchs, err
 }
 
@@ -32,7 +32,7 @@ func (d MatchDao) Save(match *models.Match) (err error) {
 func (d MatchDao) Delete(id uint) error {
 	match, err := d.Get(id)
 	if err == nil {
-		err = db.Delete(&match).Error
+		err = GetDB().Delete(&match).Error
 	}
 	return err
 }

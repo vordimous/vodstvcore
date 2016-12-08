@@ -13,7 +13,7 @@ func (d TagDao) Get(id uint) (tag models.Tag, err error) {
 
 //Find ...
 func (d TagDao) Find(q map[string]interface{}) (tags []models.Tag, err error) {
-	err = db.Where(q).Find(&tags).Error
+	err = GetDB().Where(q).Find(&tags).Error
 	return tags, err
 }
 
@@ -32,7 +32,7 @@ func (d TagDao) Save(tag *models.Tag) (err error) {
 func (d TagDao) Delete(id uint) (tag models.Tag, err error) {
 	tag, err = d.Get(id)
 	if err == nil {
-		err = db.Delete(&tag).Error
+		err = GetDB().Delete(&tag).Error
 	}
 	return tag, err
 }

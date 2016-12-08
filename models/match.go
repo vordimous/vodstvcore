@@ -5,9 +5,9 @@ import "time"
 //Match ...
 type Match struct {
 	ID        uint       `json:"id" gorm:"primary_key"`
-	CreatedAt time.Time  `json:"createdAt"`
-	UpdatedAt time.Time  `json:"updatedAt"`
-	DeletedAt *time.Time `json:"deletedAt" sql:"index"`
+	CreatedAt time.Time  `json:"_"`
+	UpdatedAt time.Time  `json:"_"`
+	DeletedAt *time.Time `json:"_" sql:"index"`
 	Title     string     `json:"title"`
 	Vods      []Vod      `json:"vods"`
 }

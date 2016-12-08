@@ -13,7 +13,7 @@ func (d FeedDao) Get(id uint) (feed models.Feed, err error) {
 
 //Find ...
 func (d FeedDao) Find(q map[string]interface{}) (feeds []models.Feed, err error) {
-	err = db.Where(q).Find(&feeds).Error
+	err = GetDB().Where(q).Find(&feeds).Error
 	return feeds, err
 }
 
@@ -32,7 +32,7 @@ func (d FeedDao) Save(feed *models.Feed) (err error) {
 func (d FeedDao) Delete(id uint) error {
 	feed, err := d.Get(id)
 	if err == nil {
-		err = db.Delete(&feed).Error
+		err = GetDB().Delete(&feed).Error
 	}
 	return err
 }

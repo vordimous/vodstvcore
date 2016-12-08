@@ -63,3 +63,29 @@ func (d WatcherDao) Get(watcherID uint) (watcher models.Watcher, err error) {
 	err = GetDB().First(&watcher, watcherID).Related(&watcher.Feeds).Error
 	return watcher, err
 }
+
+//Find ...
+func (d WatcherDao) Find(q map[string]interface{}) (watchers []models.Watcher, err error) {
+	err = GetDB().Where(q).Find(&watchers).Error
+	return watchers, err
+}
+
+//Save ...
+func (d WatcherDao) Save(watcher *models.Watcher) (err error) {
+	if GetDB().NewRecord(watcher) {
+		err = GetDB().Create(&watcher).Error
+	} else {
+		err = GetDB().Save(&watcher).Updates(getUpdates(watcher)).Error
+	}
+
+	return err
+}
+
+//Delete ...
+func (d WatcherDao) Delete(id uint) error {
+	watcher, err := d.Get(id)
+	if err == nil {
+		err = GetDB().Delete(&watcher).Error
+	}
+	return err
+}

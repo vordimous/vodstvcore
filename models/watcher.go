@@ -11,9 +11,10 @@ import (
 //Watcher ...
 type Watcher struct {
 	ID        uint       `json:"id" gorm:"primary_key"`
-	CreatedAt time.Time  `json:"createdAt"`
-	UpdatedAt time.Time  `json:"updatedAt"`
-	DeletedAt *time.Time `json:"deletedAt" sql:"index"`
+	CreatedAt time.Time  `json:"_"`
+	UpdatedAt time.Time  `json:"_"`
+	DeletedAt *time.Time `json:"_" sql:"index"`
+	IsAdmin   bool       `json:"isAdmin"`
 	Email     string     `json:"email"`
 	Password  string     `json:"-"`
 	Name      string     `json:"name"`

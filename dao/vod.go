@@ -13,7 +13,7 @@ func (d VodDao) Get(id uint) (vod models.Vod, err error) {
 
 //Find ...
 func (d VodDao) Find(q map[string]interface{}) (vods []models.Vod, err error) {
-	err = db.Where(q).Find(&vods).Error
+	err = GetDB().Where(q).Find(&vods).Error
 	return vods, err
 }
 
@@ -32,7 +32,7 @@ func (d VodDao) Save(vod *models.Vod) (err error) {
 func (d VodDao) Delete(id uint) (vod models.Vod, err error) {
 	vod, err = d.Get(id)
 	if err == nil {
-		err = db.Delete(&vod).Error
+		err = GetDB().Delete(&vod).Error
 	}
 	return vod, err
 }
