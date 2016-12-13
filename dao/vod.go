@@ -13,7 +13,7 @@ func (d VodDao) Get(id uint) (vod models.Vod, err error) {
 
 //Find ...
 func (d VodDao) Find(q map[string]interface{}) (vods []models.Vod, err error) {
-	err = GetDB().Where(q).Find(&vods).Error
+	err = GetDB().Where(q).Preload("Tags").Find(&vods).Error
 	return vods, err
 }
 

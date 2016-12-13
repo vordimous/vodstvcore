@@ -7,13 +7,13 @@ type FeedDao struct{}
 
 //Get ...
 func (d FeedDao) Get(id uint) (feed models.Feed, err error) {
-	err = GetDB().First(&feed, id).Error
+	err = GetDB().First(&feed, id).Related(&feed.Tags, "Tags").Error
 	return feed, err
 }
 
 //Find ...
 func (d FeedDao) Find(q map[string]interface{}) (feeds []models.Feed, err error) {
-	err = GetDB().Where(q).Find(&feeds).Error
+	err = GetDB().Where(q).Preload("Tags").Find(&feeds).Error
 	return feeds, err
 }
 

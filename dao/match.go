@@ -13,7 +13,7 @@ func (d MatchDao) Get(id uint) (match models.Match, err error) {
 
 //Find ...
 func (d MatchDao) Find(q map[string]interface{}) (matchs []models.Match, err error) {
-	err = GetDB().Where(q).Find(&matchs).Error
+	err = GetDB().Where(q).Preload("Vods").Find(&matchs).Error
 	return matchs, err
 }
 
