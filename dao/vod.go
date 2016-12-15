@@ -17,6 +17,20 @@ func (d VodDao) Find(q map[string]interface{}) (vods []models.Vod, err error) {
 	return vods, err
 }
 
+//Query ...
+func (d VodDao) Query(tags []uint) (vods []models.Vod, err error) {
+	rows, err := db.Table("vod_tags").Where("tag_id in (?)", tags).Select("vod_id").Rows()
+	defer rows.Close()
+	vodIDs := []uint{}
+	for rows.Next() {
+		var vodID uint
+		rows.Scan(&vodID)
+		vodIDs = append(vodIDs, vodID)
+	}
+	err = GetDB().Where("id in (?)", vodIDs).Preload("Tags").Find(&vods).Error
+	return vods, err
+}
+
 //Save ...
 func (d VodDao) Save(vod *models.Vod) (err error) {
 	if GetDB().NewRecord(vod) {
