@@ -20,7 +20,11 @@ func (d VodDao) Find(q map[string]interface{}) (vods []models.Vod, err error) {
 //Query ...
 func (d VodDao) Query(tags []uint) (vods []models.Vod, err error) {
 	vodIDs := []uint{}
-	err = db.Table("vod_tags").Where("tag_id in (?)", tags).Pluck("DISTINCT(vod_id)", &vodIDs).Error
+	dbQuery := db.Table("vod_tags")
+	if tags != nil && len(tags) > 0 {
+		dbQuery = dbQuery.Where("tag_id in (?)", tags)
+	}
+	err = dbQuery.Pluck("DISTINCT(vod_id)", &vodIDs).Error
 	if err == nil {
 		err = GetDB().Where("id in (?)", vodIDs).Preload("Tags").Find(&vods).Error
 	}

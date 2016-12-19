@@ -10,5 +10,5 @@ type Feed struct {
 	DeletedAt *time.Time `json:"_" sql:"index"`
 	OwnerID   uint       `json:"-"`
 	Name      string     `json:"name"`
-	Tags      []Tag      `gorm:"many2many:feed_tags;"`
+	Tags      []Tag      `json:"tags" gorm:"many2many:feed_tags;"`
 }
