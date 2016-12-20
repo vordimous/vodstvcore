@@ -5,7 +5,7 @@ import (
 	"net/url"
 	"os"
 
-	"github.com/vodstv/core"
+	"vodstv/core"
 
 	"github.com/gin-gonic/contrib/sessions"
 	_ "github.com/jinzhu/gorm/dialects/postgres" //import postgres

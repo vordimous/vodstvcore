@@ -1,6 +1,6 @@
 package dao
 
-import "github.com/vodstv/core/models"
+import "vodstv/core/models"
 
 //TagDao ...
 type TagDao struct{}

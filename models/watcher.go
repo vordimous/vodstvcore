@@ -3,7 +3,7 @@ package models
 import (
 	"time"
 
-	"github.com/vodstv/core"
+	"vodstv/core"
 
 	"golang.org/x/crypto/bcrypt"
 )

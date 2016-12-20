@@ -5,7 +5,7 @@ import (
 
 	"golang.org/x/crypto/bcrypt"
 
-	"github.com/vodstv/core/models"
+	"vodstv/core/models"
 )
 
 //SigninForm ...

@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/vodstv/core"
-	"github.com/vodstv/core/models"
+	"vodstv/core"
+	"vodstv/core/models"
 
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/postgres" //import postgres

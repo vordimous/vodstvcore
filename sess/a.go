@@ -3,8 +3,8 @@ package sess
 import (
 	"strconv"
 
-	"github.com/vodstv/core"
-	"github.com/vodstv/core/models"
+	"vodstv/core"
+	"vodstv/core/models"
 
 	"github.com/gin-gonic/contrib/sessions"
 	"github.com/gin-gonic/gin"
