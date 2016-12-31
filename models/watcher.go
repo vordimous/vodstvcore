@@ -17,7 +17,7 @@ type Watcher struct {
 	IsAdmin   bool       `json:"isAdmin"`
 	Email     string     `json:"email"`
 	Password  string     `json:"-"`
-	Name      string     `json:"name"`
+	Username  string     `json:"username"`
 	Feeds     []Feed     `gorm:"ForeignKey:OwnerID"`
 }
 

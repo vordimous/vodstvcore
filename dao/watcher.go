@@ -16,7 +16,7 @@ type SigninForm struct {
 
 //SignupForm ...
 type SignupForm struct {
-	Name     string `form:"name" json:"name" binding:"required,max=100"`
+	Username string `form:"username" json:"username" binding:"required,max=100"`
 	Email    string `form:"email" json:"email" binding:"required,email"`
 	Password string `form:"password" json:"password" binding:"required"`
 }
@@ -44,11 +44,12 @@ func (d WatcherDao) Signin(form SigninForm) (watcher models.Watcher, err error) 
 
 //Signup ...
 func (d WatcherDao) Signup(form SignupForm) (watcher models.Watcher, err error) {
-	err = GetDB().Where(&models.Watcher{Email: form.Email}).First(&watcher).Error
+	var count int
+	err = GetDB().Model(&models.Watcher{}).Where(&models.Watcher{Email: form.Email}).Count(&count).Error
 
-	if GetDB().NewRecord(watcher) && err == nil {
+	if count < 1 && err == nil {
 		watcher.Email = form.Email
-		watcher.Name = form.Name
+		watcher.Username = form.Username
 		watcher.Password = form.Password
 		err = GetDB().Create(&watcher).Error
 

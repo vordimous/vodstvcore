@@ -12,11 +12,11 @@ import (
 
 //WatcherSessionInfo ...
 type WatcherSessionInfo struct {
-	ID      uint          `json:"id"`
-	Name    string        `json:"name"`
-	Email   string        `json:"email"`
-	IsAdmin bool          `json:"isAdmin"`
-	Feeds   []models.Feed `json:"feeds"`
+	ID       uint          `json:"id"`
+	Username string        `json:"username"`
+	Email    string        `json:"email"`
+	IsAdmin  bool          `json:"isAdmin"`
+	Feeds    []models.Feed `json:"feeds"`
 }
 
 //GetWatcherID ...
@@ -35,9 +35,13 @@ func GetSessionWatcherInfo(c *gin.Context) (watcherSessionInfo WatcherSessionInf
 	watcherID := session.Get("watcher_id")
 	if watcherID != nil {
 		watcherSessionInfo.ID = core.ConvertToUInt(watcherID)
-		watcherSessionInfo.Name = session.Get("watcher_name").(string)
-		watcherSessionInfo.Email = session.Get("watcher_email").(string)
 
+		if session.Get("watcher_username") != nil {
+			watcherSessionInfo.Username = session.Get("watcher_username").(string)
+		}
+		if session.Get("watcher_email") != nil {
+			watcherSessionInfo.Email = session.Get("watcher_email").(string)
+		}
 		if session.Get("watcher_is_admin") != nil {
 			isAdmin, _ := strconv.ParseBool(session.Get("watcher_is_admin").(string))
 			watcherSessionInfo.IsAdmin = isAdmin
