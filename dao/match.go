@@ -17,6 +17,20 @@ func (d MatchDao) Find(q map[string]interface{}) (matchs []models.Match, err err
 	return matchs, err
 }
 
+//Query ...
+func (d MatchDao) Query(tagIDs []uint) (matchs []models.Match, err error) {
+	matchIDs := []uint{}
+	dbQuery := db.Table("match_tags")
+	if tagIDs != nil && len(tagIDs) > 0 {
+		dbQuery = dbQuery.Where("tag_id in (?)", tagIDs)
+	}
+	err = dbQuery.Pluck("DISTINCT(match_id)", &matchIDs).Error
+	if err == nil {
+		err = GetDB().Where("id in (?)", matchIDs).Preload("Tags").Find(&matchs).Error
+	}
+	return matchs, err
+}
+
 //Save ...
 func (d MatchDao) Save(match *models.Match) (err error) {
 	if GetDB().NewRecord(match) {

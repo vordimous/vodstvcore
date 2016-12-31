@@ -10,6 +10,7 @@ type Match struct {
 	DeletedAt *time.Time `json:"_" sql:"index"`
 	Title     string     `json:"title"`
 	Vods      []Vod      `json:"vods"`
+	Tags      []Tag      `json:"tags" gorm:"many2many:match_tags;"`
 }
 
 //BeforeSave ...
