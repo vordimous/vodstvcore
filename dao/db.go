@@ -3,6 +3,7 @@ package dao
 import (
 	"database/sql"
 	"fmt"
+	"log"
 	"os"
 
 	"vodstv/core"
@@ -35,12 +36,15 @@ func Init() {
 
 	dbinfo := os.Getenv("DATABASE_URL")
 
-	fmt.Println("DATABASE_URL: " + dbinfo)
-
 	if dbinfo == "" {
-		dbinfo = fmt.Sprintf("user=%s password=%s host=%s dbname=%s sslmode=disable",
-			DbUser, DbPassword, DbHost, DbName)
+		connectionName := mustGetenv("CLOUDSQL_CONNECTION_NAME")
+		user := mustGetenv("CLOUDSQL_USER")
+		password := os.Getenv("CLOUDSQL_PASSWORD")
+
+		dbinfo = fmt.Sprintf("%s:%s@cloudsql(%s)/vodstv", user, password, connectionName)
 	}
+
+	fmt.Println("DATABASE_URL: " + dbinfo)
 
 	var err error
 	//set the global variable
@@ -66,4 +70,12 @@ func DbMigration() {
 //GetDB ...
 func GetDB() *gorm.DB {
 	return db
+}
+
+func mustGetenv(k string) string {
+	v := os.Getenv(k)
+	if v == "" {
+		log.Panicf("%s environment variable not set.", k)
+	}
+	return v
 }

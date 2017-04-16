@@ -26,7 +26,11 @@ func (d VodDao) Query(tagIDs []uint) (vods []models.Vod, err error) {
 	}
 	err = dbQuery.Pluck("DISTINCT(vod_id)", &vodIDs).Error
 	if err == nil {
-		err = GetDB().Where("id in (?)", vodIDs).Preload("Tags").Find(&vods).Error
+		if vodIDs != nil && len(vodIDs) > 0 {
+			err = GetDB().Where("id in (?)", vodIDs).Preload("Tags").Find(&vods).Error
+		} else {
+			err = GetDB().Preload("Tags").Find(&vods).Error
+		}
 	}
 	return vods, err
 }
