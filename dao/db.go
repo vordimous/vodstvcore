@@ -3,7 +3,6 @@ package dao
 import (
 	"database/sql"
 	"fmt"
-	"log"
 	"os"
 
 	"vodstv/core"
@@ -36,14 +35,6 @@ func Init() {
 
 	dbinfo := os.Getenv("DATABASE_URL")
 
-	if dbinfo == "" {
-		connectionName := mustGetenv("CLOUDSQL_CONNECTION_NAME")
-		user := mustGetenv("CLOUDSQL_USER")
-		password := os.Getenv("CLOUDSQL_PASSWORD")
-
-		dbinfo = fmt.Sprintf("%s:%s@cloudsql(%s)/vodstv", user, password, connectionName)
-	}
-
 	fmt.Println("DATABASE_URL: " + dbinfo)
 
 	var err error
@@ -70,12 +61,4 @@ func DbMigration() {
 //GetDB ...
 func GetDB() *gorm.DB {
 	return db
-}
-
-func mustGetenv(k string) string {
-	v := os.Getenv(k)
-	if v == "" {
-		log.Panicf("%s environment variable not set.", k)
-	}
-	return v
 }
